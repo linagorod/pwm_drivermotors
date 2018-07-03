@@ -30,56 +30,56 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-avr_pwm.lss \
+pwm_drivermotors.lss \
 
 FLASH_IMAGE += \
-avr_pwm.hex \
+pwm_drivermotors.hex \
 
 EEPROM_IMAGE += \
-avr_pwm.eep \
+pwm_drivermotors.eep \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: avr_pwm.elf secondary-outputs
+all: pwm_drivermotors.elf secondary-outputs
 
 # Tool invocations
-avr_pwm.elf: $(OBJS) $(USER_OBJS)
+pwm_drivermotors.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,avr_pwm.map -mmcu=atmega328p -o "avr_pwm.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,pwm_drivermotors.map -mmcu=atmega328p -o "pwm_drivermotors.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-avr_pwm.lss: avr_pwm.elf
+pwm_drivermotors.lss: pwm_drivermotors.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S avr_pwm.elf  >"avr_pwm.lss"
+	-avr-objdump -h -S pwm_drivermotors.elf  >"pwm_drivermotors.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-avr_pwm.hex: avr_pwm.elf
+pwm_drivermotors.hex: pwm_drivermotors.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex avr_pwm.elf  "avr_pwm.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex pwm_drivermotors.elf  "pwm_drivermotors.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-avr_pwm.eep: avr_pwm.elf
+pwm_drivermotors.eep: pwm_drivermotors.elf
 	@echo 'Create eeprom image (ihex format)'
-	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex avr_pwm.elf  "avr_pwm.eep"
+	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex pwm_drivermotors.elf  "pwm_drivermotors.eep"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: avr_pwm.elf
+sizedummy: pwm_drivermotors.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega328p avr_pwm.elf
+	-avr-size --format=avr --mcu=atmega328p pwm_drivermotors.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) avr_pwm.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) pwm_drivermotors.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
